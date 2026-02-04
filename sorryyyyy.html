@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sorry Giffy 🥺</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lora', serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, #fff0f5 0%, #e6e6fa 100%);
+    position: relative;
+  }
+
+  /* Stars */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 3s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.3; transform: scale(0.5); }
+  }
+
+  /* Cover Slide */
+  #cover {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #ffe6f0 0%, #e0e0ff 100%);
+    z-index: 30;
+    flex-direction: column;
+  }
+
+  #coverText {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: bold;
+    color: #1a1aff; /* dark blue */
+    text-align: center;
+    text-shadow: 0 0 10px #1a1aff, 0 0 20px #99ccff;
+    animation: fadeBounce 3s forwards;
+    cursor: pointer;
+  }
+
+  @keyframes fadeBounce {
+    0% { opacity: 0; transform: scale(0.8);}
+    50% { opacity: 1; transform: scale(1.1);}
+    100% { opacity: 1; transform: scale(1);}
+  }
+
+  /* Step 1 */
+  #step1 {
+    display:flex; 
+    flex-direction:column; 
+    align-items:center;
+    z-index: 10;
+  }
+
+  #giraffe {
+    font-size: 100px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  #giraffe:hover { transform: scale(1.3); }
+
+  #clickText {
+    font-size: 22px;
+    color: #1a1aff;
+    margin-top: 10px;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .message {
+    margin-top: 20px;
+    font-size: 26px;
+    text-align: center;
+    display: none;
+    animation: pop 0.5s ease-out;
+    color: #1a1aff;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Step 2 container */
+  #step2 {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sorryWord {
+    position: absolute;
+    color: #1a1aff;
+    font-size: 24px;
+    opacity: 0.8;
+    animation: floatUp 20s linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(0.5); opacity:0.7;}
+    50% { transform: translateY(-100px) scale(1); opacity:1;}
+    100% { transform: translateY(-200px) scale(1.2); opacity:0;}
+  }
+
+  .heart {
+    position: absolute;
+    color: #f8f8f8;
+    font-size: 16px;
+    opacity: 0.7;
+    animation: heartFloat 22s linear forwards;
+  }
+
+  @keyframes heartFloat {
+    0% { transform: translateY(0) scale(0.5); opacity:0.5; }
+    50% { transform: translateY(-100px) scale(1); opacity:1; }
+    100% { transform: translateY(-200px) scale(1.2); opacity:0; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Cover Slide -->
+<div id="cover">
+  <div id="coverText">FOR MY FAVOURITE PERSON… CLICK</div>
+</div>
+
+<!-- Step 1 -->
+<div id="step1">
+  <div id="giraffe">🦒</div>
+  <div id="clickText">Click me!</div>
+  <div class="message" id="line1">Giffy… I messed up 🥺 Please don’t be sad</div>
+  <div class="message" id="line2">A day without talking to you feels so empty 😔</div>
+  <div class="message" id="line3">I just want things to be okay again 💛</div>
+  <div class="message" id="line4">You’re really important to me 🦒</div>
+</div>
+
+<!-- Step 2 -->
+<div id="step2"></div>
+
+<!-- Background music -->
+<audio id="bgMusic" autoplay loop>
+  <source src="song.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  const music = document.getElementById('bgMusic');
+  music.volume = 0.05; // audible but soft
+
+  // Stars
+  for(let i=0;i<50;i++){
+    let star = document.createElement('div');
+    star.className='star';
+    star.style.width=`${Math.random()*3+1}px`;
+    star.style.height=star.style.width;
+    star.style.top=`${Math.random()*100}%`;
+    star.style.left=`${Math.random()*100}%`;
+    star.style.animationDuration=`${Math.random()*2+1.5}s`;
+    document.body.appendChild(star);
+  }
+
+  // Cover click
+  const cover = document.getElementById('cover');
+  cover.addEventListener('click', ()=>{
+    cover.style.display='none';
+    document.getElementById('step1').style.display='flex';
+  });
+
+  // Step 1 click sequence
+  const giraffe = document.getElementById('giraffe');
+  const messages = [
+    document.getElementById('line1'),
+    document.getElementById('line2'),
+    document.getElementById('line3'),
+    document.getElementById('line4')
+  ];
+  const clickText = document.getElementById('clickText');
+  let index=0;
+  const hints = [
+    "Click again → next line",
+    "One more click → next line",
+    "Final click → last line"
+  ];
+
+  giraffe.addEventListener('click', ()=>{
+    if(index<messages.length){
+      messages[index].style.display='block';
+      if(index < hints.length){
+        clickText.innerText = hints[index];
+      } else {
+        clickText.style.display='none';
+      }
+      index++;
+      if(index===messages.length){
+        setTimeout(showStep2,1000);
+        giraffe.style.display='none';
+        document.getElementById('step1').style.display='none';
+      }
+    }
+  });
+
+  function showStep2(){
+    const step2 = document.getElementById('step2');
+    step2.style.display='flex';
+
+    // Floating Sorry words (long duration)
+    for(let i=0;i<30;i++){
+      let s = document.createElement('div');
+      s.className='sorryWord';
+      s.innerText='Sorry';
+      s.style.top=`${Math.random()*80+10}%`;
+      s.style.left=`${Math.random()*80+10}%`;
+      s.style.fontSize=`${Math.random()*24+16}px`;
+      step2.appendChild(s);
+    }
+
+    // Floating hearts
+    for(let i=0;i<30;i++){
+      let h = document.createElement('div');
+      h.className='heart';
+      h.innerText='🤍';
+      h.style.top=`${Math.random()*80+10}%`;
+      h.style.left=`${Math.random()*80+10}%`;
+      h.style.fontSize=`${Math.random()*16+12}px`;
+      step2.appendChild(h);
+    }
+
+    // Fade out everything after long duration (25s)
+    setTimeout(()=>{
+      step2.style.transition="opacity 3s";
+      step2.style.opacity=0;
+      music.volume = 0; // fade out music
+    }, 25000);
+  }
+
+</script>
+
+</body>
+</html>
